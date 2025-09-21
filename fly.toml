@@ -1,5 +1,5 @@
 # Configuration Fly.io pour l'API Population & Foyers
-app = "population-api"
+app = "population-foyers-api"
 primary_region = "cdg"
 
 [build]
