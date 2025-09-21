@@ -34,13 +34,17 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copier le code source
 COPY . .
 
-# Télécharger les vraies données depuis JRC
+# Télécharger les vraies données depuis JRC (URLs directes)
 RUN echo "📥 Téléchargement des données JRC_GRID_2018..." && \
     wget -O JRC_POPULATION_2018.zip "https://ghsl.jrc.ec.europa.eu/download.php?ds=pop" && \
-    unzip JRC_POPULATION_2018.zip && \
+    unzip -o JRC_POPULATION_2018.zip && \
     rm JRC_POPULATION_2018.zip && \
     echo "✅ Données JRC téléchargées" && \
-    ls -la JRC_*
+    ls -la JRC_* && \
+    echo "Vérification des fichiers shapefile:" && \
+    file JRC_POPULATION_2018.shp && \
+    echo "Vérification GDAL:" && \
+    ogrinfo JRC_POPULATION_2018.shp -so
 
 # Créer un utilisateur non-root pour la sécurité
 RUN useradd --create-home --shell /bin/bash app && chown -R app:app /app
