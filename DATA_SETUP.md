@@ -1,25 +1,34 @@
 # 📊 Configuration des Données
 
-## ⚠️ Fichiers de Données Manquants
+## ✅ Fichiers de Données Inclus
 
-Les fichiers de données JRC_GRID_2018 sont trop volumineux pour GitHub (>100MB). Vous devez les télécharger séparément.
+Les fichiers de données JRC_GRID_2018 sont maintenant inclus dans le repository via Git LFS (Large File Storage).
 
-## 📥 Téléchargement des Données
+## 📥 Installation des Données
 
-### Option 1: Téléchargement Direct
-1. Allez sur [JRC Global Human Settlement Layer](https://ghsl.jrc.ec.europa.eu/download.php?ds=pop)
-2. Téléchargez les fichiers suivants :
-   - `JRC_POPULATION_2018.shp` (et fichiers associés)
-   - `JRC_1K_POP_2018.tif`
-
-### Option 2: Script de Téléchargement
+### Cloner avec Git LFS
 ```bash
-# Créer le répertoire de données
-mkdir -p data
+# Cloner le repository (les données seront téléchargées automatiquement)
+git clone https://github.com/lavetotabasco/population-api.git
+cd population-api
 
-# Télécharger les fichiers (remplacez par les vrais liens)
-wget -O data/JRC_POPULATION_2018.shp "URL_DU_FICHIER"
-wget -O data/JRC_1K_POP_2018.tif "URL_DU_FICHIER"
+# Si Git LFS n'est pas installé
+git lfs install
+
+# Télécharger les fichiers LFS
+git lfs pull
+```
+
+### Installation de Git LFS
+```bash
+# macOS
+brew install git-lfs
+
+# Ubuntu/Debian
+sudo apt install git-lfs
+
+# Windows
+# Télécharger depuis https://git-lfs.github.io/
 ```
 
 ## 📁 Structure Attendue
@@ -47,15 +56,25 @@ DATA_CONFIG = {
 
 ## 🚀 Déploiement
 
-Pour le déploiement sur Fly.io, les fichiers de données seront inclus dans l'image Docker.
+Pour le déploiement sur Fly.io, les fichiers de données sont automatiquement inclus dans l'image Docker via Git LFS.
 
 ## 📞 Support
 
 Si vous avez des problèmes avec les données :
-1. Vérifiez que tous les fichiers sont présents
-2. Vérifiez les permissions de lecture
-3. Vérifiez l'espace disque disponible
+1. Vérifiez que Git LFS est installé : `git lfs version`
+2. Vérifiez que les fichiers LFS sont téléchargés : `git lfs ls-files`
+3. Forcez le téléchargement : `git lfs pull`
+
+## 🔧 Vérification
+
+```bash
+# Vérifier que les fichiers sont présents
+ls -la JRC_*
+
+# Vérifier la taille des fichiers
+du -h JRC_*
+```
 
 ---
 
-**Note** : Les fichiers de données représentent ~2.4GB au total.
+**Note** : Les fichiers de données représentent ~2.4GB au total et sont gérés par Git LFS.
