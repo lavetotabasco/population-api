@@ -113,10 +113,10 @@ logs/
 test_local_*
 *_local.py
 
-# Fichiers de données volumineux (trop gros pour GitHub)
-JRC_1K_POP_2018.tif*
-JRC_POPULATION_2018.*
-JRC-GEOSTAT_2018_TechnicalFactsheet.pdf
+# Fichiers de données volumineux (gérés par Git LFS)
+# JRC_1K_POP_2018.tif*
+# JRC_POPULATION_2018.*
+# JRC-GEOSTAT_2018_TechnicalFactsheet.pdf
 
 # Fichiers de configuration locaux
 config_local.py
