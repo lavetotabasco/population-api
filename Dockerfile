@@ -34,12 +34,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copier le code source
 COPY . .
 
-# Télécharger les vraies données depuis JRC (URLs directes)
-RUN echo "📥 Téléchargement des données JRC_GRID_2018..." && \
-    wget -O JRC_POPULATION_2018.zip "https://ghsl.jrc.ec.europa.eu/download.php?ds=pop" && \
-    unzip -o JRC_POPULATION_2018.zip && \
-    rm JRC_POPULATION_2018.zip && \
-    echo "✅ Données JRC téléchargées" && \
+# Cloner le repository avec Git LFS pour récupérer les vraies données
+RUN echo "📥 Clonage du repository avec Git LFS..." && \
+    apt-get update && apt-get install -y git-lfs && \
+    git lfs install && \
+    git clone --depth 1 https://github.com/lavetotabasco/population-api.git temp_repo && \
+    cp temp_repo/JRC_* . && \
+    rm -rf temp_repo && \
+    echo "✅ Données copiées depuis le repository" && \
     ls -la JRC_* && \
     echo "Vérification des fichiers shapefile:" && \
     file JRC_POPULATION_2018.shp && \
