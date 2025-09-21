@@ -41,6 +41,7 @@ echo "✅ Tous les fichiers sont présents"
 
 # Déployer
 echo "🚀 Déploiement en cours..."
+echo "⚠️  Note: Les données JRC seront téléchargées automatiquement depuis la source officielle"
 fly deploy
 
 if [ $? -eq 0 ]; then

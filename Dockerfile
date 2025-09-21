@@ -12,6 +12,9 @@ RUN apt-get update && apt-get install -y \
     libspatialindex-dev \
     gcc \
     g++ \
+    git \
+    wget \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
 # Définir les variables d'environnement GDAL
@@ -30,6 +33,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copier le code source
 COPY . .
+
+# Télécharger les vraies données depuis JRC
+RUN echo "📥 Téléchargement des données JRC_GRID_2018..." && \
+    wget -O JRC_POPULATION_2018.zip "https://ghsl.jrc.ec.europa.eu/download.php?ds=pop" && \
+    unzip JRC_POPULATION_2018.zip && \
+    rm JRC_POPULATION_2018.zip && \
+    echo "✅ Données JRC téléchargées" && \
+    ls -la JRC_*
 
 # Créer un utilisateur non-root pour la sécurité
 RUN useradd --create-home --shell /bin/bash app && chown -R app:app /app
