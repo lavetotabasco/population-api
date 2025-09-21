@@ -175,14 +175,24 @@ def internal_error(error):
     return jsonify({'error': 'Erreur interne du serveur'}), 500
 
 if __name__ == '__main__':
-    # Initialiser l'analyseur au démarrage
-    if init_analyzer():
-        port = int(os.getenv('PORT', 8080))
-        host = os.getenv('HOST', '0.0.0.0')
-        debug = os.getenv('DEBUG', 'False').lower() == 'true'
-        
-        logger.info(f"🌐 Démarrage du serveur sur {host}:{port}")
-        app.run(host=host, port=port, debug=debug)
-    else:
-        logger.error("❌ Impossible de démarrer le serveur")
-        exit(1)
+    # Démarrer le serveur Flask immédiatement
+    port = int(os.getenv('PORT', 8080))
+    host = os.getenv('HOST', '0.0.0.0')
+    debug = os.getenv('DEBUG', 'False').lower() == 'true'
+    
+    logger.info(f"🌐 Démarrage du serveur sur {host}:{port}")
+    logger.info("📊 L'analyseur sera initialisé en arrière-plan")
+    
+    # Initialiser l'analyseur en arrière-plan
+    import threading
+    def init_analyzer_background():
+        try:
+            init_analyzer()
+            logger.info("✅ Analyseur initialisé avec succès en arrière-plan")
+        except Exception as e:
+            logger.error(f"❌ Erreur initialisation en arrière-plan: {e}")
+    
+    threading.Thread(target=init_analyzer_background, daemon=True).start()
+    
+    # Démarrer le serveur Flask
+    app.run(host=host, port=port, debug=debug)
